@@ -1,1 +1,1 @@
-key facial landmark detection application
+key facial landmarks detection application
