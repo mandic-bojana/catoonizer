@@ -43,7 +43,7 @@ def main():
 
     epochs = epochs
     decay_rate = 1.0 / epochs
-    schedule = lambda epoch_index, lr: lr * (1. / (1. + decay_rate * epoch_index))
+    schedule = lambda epoch_index, lr: lr * (1.0 / (1.0 + decay_rate * epoch_index))
     lrScheduler = LearningRateScheduler(schedule, verbose=1)
 
     K.set_value(self_updating_CNN.optimizer.lr, lr)
