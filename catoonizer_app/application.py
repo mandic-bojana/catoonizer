@@ -21,7 +21,7 @@ initial_model = load_model('initial_shape_model.hdf5')
 self_updating_cnn_model = load_model('self_updating_CNN.hdf5')
 
 class MyWindow(Gtk.ApplicationWindow):
-    # create a window
+   
 
     def __init__(self, app):
         Gtk.Window.__init__(self, title="Catoonizer", application=app)
