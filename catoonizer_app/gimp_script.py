@@ -33,12 +33,47 @@ def select_polygon_path(bounding_path, image, enable_feather_edges, radius):
 def extract_face(face_image_path, eyes_image_path, shape):
     
     image = pdb.gimp_file_load(face_image_path, face_image_path)
+    mapping = map_coordinates(shape)
 
     bounding_path = face_bounding_path(shape)
     select_polygon_path(bounding_path, image, False, 0)
 
-    pdb.plug_in_dog(image, pdb.gimp_image_get_active_layer(image), 270, 1, True, True)
+    pdb.plug_in_unsharp_mask(image, pdb.gimp_image_get_active_layer(image), 7, 1.17, 1)
+
+ #   pdb.plug_in_cartoon(image, pdb.gimp_image_get_active_layer(image), 10, 0.2)
+
+    pdb.plug_in_blur(image, pdb.gimp_image_get_active_layer(image))
+    pdb.plug_in_blur(image, pdb.gimp_image_get_active_layer(image))
+    pdb.plug_in_blur(image, pdb.gimp_image_get_active_layer(image))
+    
+    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 0, 60)
+    pdb.plug_in_dog(image, pdb.gimp_image_get_active_layer(image), 250, 10, True, True)
     pdb.gimp_hue_saturation(pdb.gimp_image_get_active_layer(image), 0, 0, 10, -100)
+
+ #   pdb.plug_in_cartoon(image, pdb.gimp_image_get_active_layer(image), 120, 0.20)
+    pdb.plug_in_cartoon(image, pdb.gimp_image_get_active_layer(image), 20, 0.1)  
+  
+    left_start_x, left_start_y = mapping['beard_left_1']
+    left_end_x, left_end_y = mapping['eyebrow_left_1']
+    right_start_x, right_start_y = mapping['beard_right_8']
+    right_end_x, right_end_y = mapping['eyebrow_right_5']
+
+    pdb.gimp_context_set_foreground((255, 255, 255))
+    pdb.gimp_edit_blend(pdb.gimp_image_get_active_layer(image), FG_TRANSPARENT_MODE, NORMAL_MODE, GRADIENT_LINEAR, 100, 
+                    0, REPEAT_NONE, False, False, 0, 0, True, left_start_x, left_start_y, left_end_x+30, left_start_y)
+    pdb.gimp_edit_blend(pdb.gimp_image_get_active_layer(image), FG_TRANSPARENT_MODE, NORMAL_MODE, GRADIENT_LINEAR, 100, 
+                    0, REPEAT_NONE, False, False, 0, 0, True, right_start_x, right_start_y, right_end_x-30, right_start_y)
+
+
+ #   pdb.gimp_threshold(pdb.gimp_image_get_active_layer(image), 225, 255)
+    pdb.gimp_posterize(pdb.gimp_image_get_active_layer(image), 5)  
+    
+    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 120, 10)
+    pdb.plug_in_oilify(image, pdb.gimp_image_get_active_layer(image), 1, 100)
+    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 120, 5)
+    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 20, 0)
+  
+
     pdb.plug_in_colortoalpha(image, pdb.gimp_image_get_active_layer(image), (255, 255, 255))
     
     eyes_layer = pdb.gimp_file_load_layer(image, eyes_image_path)
@@ -57,6 +92,7 @@ def extract_face(face_image_path, eyes_image_path, shape):
     pdb.gimp_selection_none(image)
 
     select_polygon_path(bounding_path, image, True, 3)
+    
 
     pdb.gimp_selection_invert(image)
 
@@ -72,7 +108,6 @@ def extract_face(face_image_path, eyes_image_path, shape):
     select_polygon_path(rotated_bounding_path, image, False, 0)
 
     _, x_top_left, y_top_left, _, _ = pdb.gimp_selection_bounds(image)
-    print(x_top_left, y_top_left)
 
     translated_shape = translate_shape_to_selection(rotated_shape, x_top_left, y_top_left)
     
@@ -83,6 +118,7 @@ def extract_face(face_image_path, eyes_image_path, shape):
 
     scaled_shape = scale_shape_to_dimensions(image, translated_shape, new_width, new_height)
     pdb.gimp_image_scale(image, new_width, new_height)
+
 
     pdb.gimp_file_save(image, pdb.gimp_image_get_active_layer(image), 'gimp_resources/face.png', 'gimp_resources/face.png')
     pdb.gimp_image_delete(image)   
@@ -96,6 +132,8 @@ def extract_eyes_and_mouth(image_path, shape):
 
     image = pdb.gimp_file_load(image_path, image_path)
     
+#    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 70, 30)
+    
     left_eye_path = left_eye_bounding_path(shape)
     right_eye_path = right_eye_bounding_path(shape)
     mouth_path = mouth_bounding_path(shape)
@@ -103,16 +141,19 @@ def extract_eyes_and_mouth(image_path, shape):
     select_polygon_path(left_eye_path, image, True, 3)
     select_polygon_path(right_eye_path, image, True, 3)
 
+    pdb.plug_in_cartoon(image, image.layers[0], 25, 0.1)
+    
     pdb.gimp_hue_saturation(pdb.gimp_image_get_active_layer(image), 0, 0, 10, -100)
 
-    pdb.plug_in_oilify(image, pdb.gimp_image_get_active_layer(image), 5, 1)
+    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 70, 50)
+    pdb.plug_in_oilify(image, pdb.gimp_image_get_active_layer(image), 7, 10)
     pdb.plug_in_softglow(image, pdb.gimp_image_get_active_layer(image), 1, 1, 1)
- #   pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 90, 90)
 
-    select_polygon_path(mouth_path, image, True, 3)
+    select_polygon_path(mouth_path, image, True, 5)
+    pdb.gimp_hue_saturation(pdb.gimp_image_get_active_layer(image), 0, 0, 0, -10)
+    pdb.gimp_brightness_contrast(pdb.gimp_image_get_active_layer(image), 80, 40)
+    pdb.gimp_posterize(pdb.gimp_image_get_active_layer(image), 20)
     
-    pdb.gimp_posterize(pdb.gimp_image_get_active_layer(image), 10)
-
     pdb.gimp_selection_invert(image)
 
     pdb.gimp_edit_fill(pdb.gimp_image_get_active_layer(image), 2)
@@ -143,7 +184,7 @@ def draw_nose(image, shape):
     pdb.gimp_context_set_foreground(nose_color)
     
     pdb.gimp_edit_blend(pdb.gimp_image_get_active_layer(image), FG_TRANSPARENT_MODE, NORMAL_MODE, GRADIENT_RADIAL, 50, 
-                    0, REPEAT_NONE, False, False, 0, 0, True, x1, y1, x2, y2 + 2)
+                    0, REPEAT_NONE, False, False, 0, 0, True, x1, y1, x2, y2 + 100)
 
     
 
@@ -153,7 +194,7 @@ def draw_eye_line(image, shape):
     left_eyelid = left_eyelid_path(shape)
     right_eyelid = right_eyelid_path(shape)
 
-    black = (0, 0, 0)
+    black = (70, 70, 70)
 
     stroke(image, right_eyelid, black, 1, 100)
     stroke(image, left_eyelid, black, 1, 100)
@@ -224,15 +265,19 @@ def add_body(body_image_file, head_image_file, shape):
     
     mapping = map_coordinates(new_shape)
 
-    stroke(body_image, [[294, 480], mapping['beard_left_5']], (130, 130, 130), 0.5, 100)
-    stroke(body_image, [[596, 496], mapping['beard_right_4']], (190, 190, 190), 2.3, 100)
+    # 
+    right_beard_connect_x = (mapping['beard_right_5'][0] + mapping['beard_right_4'][0]) / 2
+    right_beard_connect_y = (mapping['beard_right_5'][1] + mapping['beard_right_4'][1]) / 2
+
+    stroke(body_image, [[294, 480], mapping['beard_left_5']], (150, 150, 150), 0.9, 100)
+    stroke(body_image, [[596, 496], [right_beard_connect_x, right_beard_connect_y]], (100, 100, 100), 1.5, 100)
 
     left_beard_1_x, left_beard_1_y = mapping['beard_left_1']
     right_beard_8_x, right_beard_8_y = mapping['beard_right_8']
 
 
 
-    stroke(body_image, [mapping['eyebrow_left_5'], mapping['eyebrow_right_1']], (255, 255, 255), 2.7, 100)
+    stroke(body_image, [mapping['eyebrow_left_5'], mapping['eyebrow_right_1']], (255, 255, 255), 5, 100)
     stroke(body_image, [mapping['eyebrow_left_1'], [left_beard_1_x + 4, left_beard_1_y + 4]], (255, 255, 255), 3, 100)
     stroke(body_image, [mapping['eyebrow_right_5'], [right_beard_8_x - 4, right_beard_8_y - 4]], (255, 255, 255), 3, 100)
 
@@ -240,9 +285,14 @@ def add_body(body_image_file, head_image_file, shape):
 
     stroke(body_image, left_eyebrow_path(new_shape), (255, 255, 255), 3, 80)
 
+    pdb.gimp_context_set_feather(True)
+    pdb.gimp_context_set_feather_radius(20, 20)
 
-    stroke(body_image, [mapping['beard_left_1'], ears_left_connect_point], (128, 128, 128), 0.5, 80)
-    stroke(body_image, [mapping['beard_right_8'], ears_right_connect_point], (128, 128, 128), 0.5, 80)
+    stroke(body_image, [mapping['beard_left_1'], ears_left_connect_point], (128, 128, 128), 1.2, 100)
+    stroke(body_image, [mapping['beard_right_8'], ears_right_connect_point], (128, 128, 128), 1.5, 100)
+    stroke(body_image, face_bounding_path(new_shape)[:17], (118, 118, 118), 1, 100)
+
+    pdb.plug_in_cartoon(body_image, body_image.layers[0], 5, 0.17)
 
     pdb.gimp_image_scale(body_image, body_image.width/3, body_image.height/3)
 
