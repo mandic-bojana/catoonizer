@@ -6,7 +6,7 @@ Catoonizer is an application that is being developed as an individual project wi
 
 ## Realization
 
-First phase of realization was creating a model for detection 68 key facial landmarks. Model is constructed of two convolutional neural networks with specific structure based on combination of approaches used in papers [A Fully End-to-End Cascaded CNN for Facial Landmark Detection](http://vipl.ict.ac.cn/uploadfile/upload/2017122111490412.pdf) and [Facial Landmarks Detection by Self-Iterative Regression Based Landmarks-Attention Network](https://arxiv.org/abs/1803.06598). 
+First phase of realization was creating a model for detection of 68 key facial landmarks. Model is constructed of two convolutional neural networks with specific structure based on combination of approaches used in papers [A Fully End-to-End Cascaded CNN for Facial Landmark Detection](http://vipl.ict.ac.cn/uploadfile/upload/2017122111490412.pdf) and [Facial Landmarks Detection by Self-Iterative Regression Based Landmarks-Attention Network](https://arxiv.org/abs/1803.06598). 
 
 Second phase was using coordinates of detected points and writing [GIMP](https://www.gimp.org/) Python scripts for transforming image to final output.
 
