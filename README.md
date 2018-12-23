@@ -25,13 +25,16 @@ Data sets used for neural networks training are available on https://ibug.doc.ic
 ![Screenshot](catoonizer_app/screenshots/screenshot_1.png)
 
 <br />
+<br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_2.png)
 
 <br />
+<br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_3.png)
 
+<br />
 <br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_4.png)
