@@ -1,5 +1,7 @@
 # Catoonizer
 
+<br />
+
 ## Project informations
 
 Catoonizer is an application that is being developed as an individual project within the course Machine Learning on the Faculty of Mathematics, University of Belgrade. The idea was to transform frontal human face image to cartoonized cat version, using machine learning techiques to detect some face parts of interest for further image edition.
@@ -22,27 +24,34 @@ Data sets used for neural networks training are available on https://ibug.doc.ic
 
 ## Screenshots
 
+<br />
+
 ### Example 1
+
+<br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_1.png)
 
 <br />
-<br />
 
 ### Example 2
+
+<br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_2.png)
 
 <br />
-<br />
 
 ### Example 3
+
+<br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_3.png)
 
 <br />
-<br />
 
 ### Example 4
+
+<br />
 
 ![Screenshot](catoonizer_app/screenshots/screenshot_4.png)
