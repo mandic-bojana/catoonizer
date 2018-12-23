@@ -12,7 +12,7 @@ Second phase was using coordinates of detected points and writing [GIMP](https:/
 
 ## Data sets
 
-Data sets for neural networks training are available on https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/.
+Data sets used for neural networks training are available on https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/.
 
 ## Screenshots
 
