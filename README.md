@@ -26,7 +26,7 @@ Data sets used for neural networks training are available on https://ibug.doc.ic
 
 <br />
 
-### Example 1
+### Example \#1
 
 <br />
 
@@ -34,7 +34,7 @@ Data sets used for neural networks training are available on https://ibug.doc.ic
 
 <br />
 
-### Example 2
+### Example \#2
 
 <br />
 
@@ -42,7 +42,7 @@ Data sets used for neural networks training are available on https://ibug.doc.ic
 
 <br />
 
-### Example 3
+### Example \#3
 
 <br />
 
@@ -50,7 +50,7 @@ Data sets used for neural networks training are available on https://ibug.doc.ic
 
 <br />
 
-### Example 4
+### Example \#4
 
 <br />
 
